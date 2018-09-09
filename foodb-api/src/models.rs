@@ -2,19 +2,23 @@ extern crate actix_web;
 use super::schema::categories;
 use super::serde_json;
 use super::serde::ser::Serialize;
+use super::serde::de::Deserialize;
 use self::actix_web::{HttpRequest, HttpResponse, Error, Responder, http};
 
+/***************** Categories ******************/
 #[derive(Queryable, Serialize)]
 pub struct Category {
 	pub category_id: i32,
 	pub name: String
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Serialize, Deserialize)]
 #[table_name="categories"]
-pub struct NewCategory<'a> {
-	pub name: &'a str
+pub struct NewCategory {
+	pub name: String
 }
+
+/***************** Recipes ******************/
 
 
 pub struct ApiResponse<T>(T);
