@@ -34,7 +34,7 @@ update msg model =
                 Ok categories -> ({ model | categories = categories, message="yeah"}, Cmd.none)
                 Err e -> ({model | message = (Debug.log "a" (Debug.toString  e))}, Cmd.none)
         CreateCategory -> ({model | message = model.newCategory }, postCategory model.newCategory)
-        Category _ -> (model, Cmd.none)
+        Category _ -> (model, getCategories)
         NewCategoryUpdate newCategory -> ({model | newCategory = newCategory}, Cmd.none)
 
 subscriptions: Model -> Sub Msg
