@@ -19,14 +19,14 @@ fn categories_get(_req: &HttpRequest) -> impl Responder {
 fn categories_post(payload: Json<NewCategory>) -> impl Responder {
 	println!("Got new category: {}", payload.name);
 
-	ApiResponse::new(
-		NewCategory{
-			name: payload.name.clone()
-		}
-	)
+	let newCategory = NewCategory{
+		name: payload.name.clone()
+	};
+
+	foodb_api::create_category(&newCategory);
+
+	ApiResponse::new(newCategory)
 }
-
-
 
 fn main() {
     // let app = ;

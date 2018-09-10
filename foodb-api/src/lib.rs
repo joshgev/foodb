@@ -13,7 +13,7 @@ use diesel::pg::PgConnection;
 use dotenv::dotenv;
 use std::env;
 
-use models::Category;
+use models::{Category, NewCategory};
 
 pub fn establish_connection() -> PgConnection {
 
@@ -35,4 +35,14 @@ pub fn get_categories() -> Vec<Category> {
 		.load::<Category>(&connection)
 		.expect("Error loading categories");
 	results
+}
+
+pub fn create_category(newCategory: &NewCategory) -> Category {
+	use schema::categories;
+	let conn = establish_connection();
+
+	diesel::insert_into(categories::table)
+		.values(newCategory)
+		.get_result(&conn)
+		.expect("Error creating new category")
 }
