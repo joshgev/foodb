@@ -1,5 +1,4 @@
 DROP TABLE recipe;
-DROP TABLE instruction_steps;
 DROP TABLE steps;
 DROP TABLE instructions;
 DROP TABLE verb_objects;

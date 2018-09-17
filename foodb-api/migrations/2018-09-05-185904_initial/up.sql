@@ -45,21 +45,17 @@ CREATE TABLE IF NOT EXISTS verb_objects (
 	unit_id INTEGER REFERENCES units(unit_id)
 );
 
+CREATE TABLE IF NOT EXISTS instructions (
+	instruction_id SERIAL	PRIMARY KEY,
+	recipe_id INTEGER REFERENCES recipe(recipe_id)
+);
+
 CREATE TABLE IF NOT EXISTS steps (
 	step_id SERIAL	PRIMARY KEY,
+	instruction_id INTEGER REFERENCES instructions(instruction_id),
 	verb_id INTEGER REFERENCES verbs(verb_id),
 	stop_when TEXT,
 	stop_after REAL, --in seconds,
 	container_id INTEGER REFERENCES containers(container_id),
 	tool_id INTEGER REFERENCES tools(tool_id)
-);
-
-CREATE TABLE IF NOT EXISTS instructions (
-	instruction_id SERIAL	PRIMARY KEY
-);
-
-CREATE TABLE IF NOT EXISTS instruction_steps (
-	instruction_id INTEGER REFERENCES instructions(instruction_id),
-	step_id INTEGER REFERENCES steps(step_id),
-	PRIMARY KEY (instruction_id, step_id)
 );
