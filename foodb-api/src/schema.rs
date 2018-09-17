@@ -22,13 +22,7 @@ table! {
 table! {
     instructions (instruction_id) {
         instruction_id -> Int4,
-    }
-}
-
-table! {
-    instruction_steps (instruction_id, step_id) {
-        instruction_id -> Int4,
-        step_id -> Int4,
+        recipe_id -> Nullable<Int4>,
     }
 }
 
@@ -43,6 +37,7 @@ table! {
 table! {
     steps (step_id) {
         step_id -> Int4,
+        instruction_id -> Nullable<Int4>,
         verb_id -> Nullable<Int4>,
         stop_when -> Nullable<Text>,
         stop_after -> Nullable<Float4>,
@@ -82,10 +77,10 @@ table! {
     }
 }
 
-joinable!(instruction_steps -> instructions (instruction_id));
-joinable!(instruction_steps -> steps (step_id));
+joinable!(instructions -> recipe (recipe_id));
 joinable!(recipe -> categories (category_id));
 joinable!(steps -> containers (container_id));
+joinable!(steps -> instructions (instruction_id));
 joinable!(steps -> tools (tool_id));
 joinable!(steps -> verbs (verb_id));
 joinable!(verb_objects -> ingredients (ingredient_id));
@@ -97,7 +92,6 @@ allow_tables_to_appear_in_same_query!(
     containers,
     ingredients,
     instructions,
-    instruction_steps,
     recipe,
     steps,
     tools,
